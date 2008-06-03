@@ -24,6 +24,8 @@ BuildRequires:	dbus-glib-devel
 BuildRequires:	libgnet2-devel
 BuildRequires:	hal-devel
 Obsoletes:	synce-serial < 0.11.1
+Obsoletes:	odccm < 0.11.2
+Obsoletes:	synce-vdccm < 0.11
 
 %description
 Synce-hal is a connection framework and dccm-implementation for
