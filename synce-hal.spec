@@ -1,5 +1,5 @@
 %define svn		3471
-%define rel		2
+%define rel		3
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
@@ -23,6 +23,7 @@ BuildRequires:	libsynce-devel
 BuildRequires:	dbus-glib-devel
 BuildRequires:	libgnet2-devel
 BuildRequires:	hal-devel
+Requires:	ppp
 Obsoletes:	synce-serial < 0.11.1
 Obsoletes:	odccm < 0.11.2
 Obsoletes:	synce-vdccm < 0.11
