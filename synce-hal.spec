@@ -1,5 +1,5 @@
 %define svn		3471
-%define rel		3
+%define rel		4
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
@@ -56,6 +56,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc AUTHORS NEWS README TODO
-%{_libdir}/*
+%{_libexecdir}/hal*
+%{_libexecdir}/synce*
 %{_datadir}/hal/fdi/policy/20thirdparty/*
 
