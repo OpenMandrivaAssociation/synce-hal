@@ -1,4 +1,4 @@
-%define svn		3519
+%define svn		0
 %define rel		1
 %if %svn
 %define release		%mkrel 0.%svn.%rel
@@ -12,7 +12,7 @@
 
 Name:		synce-hal
 Summary:	HAL-based connection framework for Windows Mobile
-Version:	0.11.1
+Version:	0.13
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
@@ -46,7 +46,7 @@ Windows Mobile devices that integrates with HAL.
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+%makeinstall_std
 
 %clean
 rm -rf %{buildroot}
@@ -59,4 +59,5 @@ rm -rf %{buildroot}
 %{_libexecdir}/hal*
 %{_libexecdir}/synce*
 %{_datadir}/hal/fdi/policy/20thirdparty/*
+%{_datadir}/%{name}
 
