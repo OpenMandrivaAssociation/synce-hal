@@ -1,5 +1,5 @@
 %define svn		0
-%define rel		2
+%define rel		3
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
@@ -16,6 +16,8 @@ Version:	0.13.1
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
+Source1:	org.freedesktop.Hal.Device.Synce.conf
+Patch0:		synce-hal-1.13.1-dbus.patch
 URL:		http://synce.sourceforge.net/
 Group:		Communications
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -37,11 +39,27 @@ Windows Mobile devices that integrates with HAL.
 
 %prep
 %setup -q -n %{dirname}
+%patch0 -p2
+cp %{SOURCE1} etc
 
 %build
 %if %svn
 ./autogen.sh
 %endif
+
+#fix ppp files location
+sed -i s/"ip-up.d"/""/"" bluetooth/Makefile.am
+sed -i s/"ip-down.d"/""/"" bluetooth/Makefile.am
+
+#needed by patch0
+aclocal -I m4
+autoheader
+libtoolize --copy --automake
+automake --copy --foreign --add-missing
+autoconf
+
+
+
 %configure2_5x --enable-bluetooth-support
 %make
 
@@ -57,9 +75,10 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc AUTHORS NEWS README TODO
-%{_sysconfdir}/ppp/ip-down.d/synce-bt-ipdown
-%{_sysconfdir}/ppp/ip-up.d/synce-bt-ipup
+%{_sysconfdir}/ppp/synce-bt-ipdown
+%{_sysconfdir}/ppp/synce-bt-ipup
 %{_sysconfdir}/ppp/peers/synce-bt-peer
+%{_sysconfdir}/dbus-1/system.d/*.conf
 %{_libexecdir}/hal*
 %{_libexecdir}/synce*
 %{_datadir}/hal/fdi/policy/20thirdparty/*
