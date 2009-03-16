@@ -1,5 +1,5 @@
 %define svn		0
-%define rel		1
+%define rel		2
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
@@ -23,6 +23,7 @@ BuildRequires:	libsynce-devel
 BuildRequires:	dbus-glib-devel
 BuildRequires:	libgnet2-devel
 BuildRequires:	hal-devel
+BuildRequires:	bluez-devel
 Requires:	ppp
 Obsoletes:	synce-serial < 0.11.1
 Obsoletes:	odccm < 0.11.2
@@ -41,7 +42,7 @@ Windows Mobile devices that integrates with HAL.
 %if %svn
 ./autogen.sh
 %endif
-%configure2_5x
+%configure2_5x --enable-bluetooth-support
 %make
 
 %install
@@ -56,6 +57,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc AUTHORS NEWS README TODO
+%{_sysconfdir}/ppp/ip-down.d/synce-bt-ipdown
+%{_sysconfdir}/ppp/ip-up.d/synce-bt-ipup
+%{_sysconfdir}/ppp/peers/synce-bt-peer
 %{_libexecdir}/hal*
 %{_libexecdir}/synce*
 %{_datadir}/hal/fdi/policy/20thirdparty/*
