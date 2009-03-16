@@ -12,7 +12,7 @@
 
 Name:		synce-hal
 Summary:	HAL-based connection framework for Windows Mobile
-Version:	0.13
+Version:	0.13.1
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
