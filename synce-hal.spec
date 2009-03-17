@@ -1,5 +1,5 @@
 %define svn		0
-%define rel		3
+%define rel		4
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
@@ -18,6 +18,7 @@ License:	MIT
 Source0:	%{distname}
 Source1:	org.freedesktop.Hal.Device.Synce.conf
 Patch0:		synce-hal-1.13.1-dbus.patch
+Patch1:		synce-hal-1.13.1-fix-connection.patch
 URL:		http://synce.sourceforge.net/
 Group:		Communications
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -40,6 +41,7 @@ Windows Mobile devices that integrates with HAL.
 %prep
 %setup -q -n %{dirname}
 %patch0 -p2
+%patch1 -p2
 cp %{SOURCE1} etc
 
 %build
@@ -67,6 +69,10 @@ autoconf
 rm -rf %{buildroot}
 %makeinstall_std
 
+#move HAL scripts to the right location
+mkdir %{buildroot}%{_libexecdir}/hal/scripts
+%__mv %{buildroot}%{_libexecdir}/hal/hal-synce* %{buildroot}%{_libexecdir}/hal/scripts/
+
 %clean
 rm -rf %{buildroot}
 
@@ -79,8 +85,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/ppp/synce-bt-ipup
 %{_sysconfdir}/ppp/peers/synce-bt-peer
 %{_sysconfdir}/dbus-1/system.d/*.conf
-%{_libexecdir}/hal*
-%{_libexecdir}/synce*
+%{_libexecdir}/hal/scripts/hal-synce*
+%{_libexecdir}/synce-serial-chat
+%{_libexecdir}/hal-dccm
 %{_datadir}/hal/fdi/policy/20thirdparty/*
 %{_datadir}/%{name}
 
