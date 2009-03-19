@@ -1,5 +1,5 @@
 %define svn		0
-%define rel		4
+%define rel		5
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
@@ -62,16 +62,12 @@ autoconf
 
 
 
-%configure2_5x --enable-bluetooth-support
+%configure2_5x --enable-bluetooth-support --with-hal-addon-dir=%{_libexecdir}/hal/scripts
 %make
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std
-
-#move HAL scripts to the right location
-mkdir %{buildroot}%{_libexecdir}/hal/scripts
-%__mv %{buildroot}%{_libexecdir}/hal/hal-synce* %{buildroot}%{_libexecdir}/hal/scripts/
 
 %clean
 rm -rf %{buildroot}
