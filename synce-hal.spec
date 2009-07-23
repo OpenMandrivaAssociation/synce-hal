@@ -1,5 +1,5 @@
 %define svn		0
-%define rel		5
+%define rel		1
 %if %svn
 %define release		%mkrel 0.%svn.%rel
 %define distname	%name-%svn.tar.lzma
