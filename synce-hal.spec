@@ -12,13 +12,11 @@
 
 Name:		synce-hal
 Summary:	HAL-based connection framework for Windows Mobile
-Version:	0.13.1
+Version:	0.14
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
 Source1:	org.freedesktop.Hal.Device.Synce.conf
-Patch0:		synce-hal-1.13.1-dbus.patch
-Patch1:		synce-hal-1.13.1-fix-connection.patch
 URL:		http://synce.sourceforge.net/
 Group:		Communications
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -40,27 +38,11 @@ Windows Mobile devices that integrates with HAL.
 
 %prep
 %setup -q -n %{dirname}
-%patch0 -p2
-%patch1 -p2
-cp %{SOURCE1} etc
 
 %build
 %if %svn
 ./autogen.sh
 %endif
-
-#fix ppp files location
-sed -i s/"ip-up.d"/""/"" bluetooth/Makefile.am
-sed -i s/"ip-down.d"/""/"" bluetooth/Makefile.am
-
-#needed by patch0
-aclocal -I m4
-autoheader
-libtoolize --copy --automake
-automake --copy --foreign --add-missing
-autoconf
-
-
 
 %configure2_5x --enable-bluetooth-support --with-hal-addon-dir=%{_libexecdir}/hal/scripts
 %make
@@ -68,6 +50,12 @@ autoconf
 %install
 rm -rf %{buildroot}
 %makeinstall_std
+
+install -Dpm644 %{buildroot}%{_sysconfdir}/ppp/ip-up.d/synce-bt-ipup \
+%{buildroot}/%{_sysconfdir}/ppp/synce-bt-ipup
+install -Dpm644 %{buildroot}%{_sysconfdir}/ppp/ip-down.d/synce-bt-ipdown \
+%{buildroot}/%{_sysconfdir}/ppp/synce-bt-ipdown
+rm -rf %{buildroot}%{_sysconfdir}/ppp/{ip-up.d,ip-down.d}
 
 %clean
 rm -rf %{buildroot}
@@ -79,6 +67,7 @@ rm -rf %{buildroot}
 %doc AUTHORS NEWS README TODO
 %{_sysconfdir}/ppp/synce-bt-ipdown
 %{_sysconfdir}/ppp/synce-bt-ipup
+%{_bindir}/synce-unlock.py
 %{_sysconfdir}/ppp/peers/synce-bt-peer
 %{_sysconfdir}/dbus-1/system.d/*.conf
 %{_libexecdir}/hal/scripts/hal-synce*
