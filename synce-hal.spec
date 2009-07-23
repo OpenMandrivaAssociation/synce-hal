@@ -16,7 +16,6 @@ Version:	0.14
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
-Source1:	org.freedesktop.Hal.Device.Synce.conf
 URL:		http://synce.sourceforge.net/
 Group:		Communications
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
