@@ -1,9 +1,9 @@
-%define svn		0
+%define svn		r3893
 %define rel		1
 %if %svn
 %define release		%mkrel 0.%svn.%rel
-%define distname	%name-%svn.tar.lzma
-%define	dirname		%name
+%define distname	%name-%svn.tar.xz
+%define	dirname		hal
 %else
 %define release		%mkrel %rel
 %define distname	%name-%version.tar.gz
@@ -12,7 +12,7 @@
 
 Name:		synce-hal
 Summary:	HAL-based connection framework for Windows Mobile
-Version:	0.14
+Version:	0.15
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
@@ -40,10 +40,11 @@ Windows Mobile devices that integrates with HAL.
 
 %build
 %if %svn
-./autogen.sh
+./bootstrap
 %endif
 
 %configure2_5x --enable-bluetooth-support --with-hal-addon-dir=%{_libexecdir}/hal/scripts
+
 %make
 
 %install
