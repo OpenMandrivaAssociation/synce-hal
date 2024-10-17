@@ -16,7 +16,7 @@ Version:	0.15
 Release:	%{release}
 License:	MIT
 Source0:	%{distname}
-URL:		http://synce.sourceforge.net/
+URL:		https://synce.sourceforge.net/
 Group:		Communications
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libsynce-devel
